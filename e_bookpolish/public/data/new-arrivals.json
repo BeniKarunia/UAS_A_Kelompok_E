@@ -1,0 +1,47 @@
+{
+  "books": [
+    {
+      "title": "The Psychology of Money",
+      "author": "Morgan Housel",
+      "image": "https://books.google.co.id/books/publisher/content?id=TnrrDwAAQBAJ&pg=PA1&img=1&zoom=3&hl=en&bul=1&sig=ACfU3U2hGkeh28bJEM7dkh2ZagypPDBqIw&w=1280",
+      "price": 500000,
+      "currency": "Rp. ",
+      "category": "Business & Economics",
+      "isbn13": 9781101911815,
+      "description": "The Psychology of Money explores how money moves around in an economy and how personal biases and the emotional factor play an important role in our financial decisions, as well as how to think more rationally and make better decisions when it comes to money."
+    },
+
+    {
+      "title": "Harry Potter And The Goblet Of Fire",
+      "author": "J. K. Rowling",
+      "image": "https://m.media-amazon.com/images/I/71ykU-RQ0nL.jpg",
+      "price": 1600000,
+      "currency": "Rp",
+      "category": "Fantasy",
+      "isbn13": 9780802130983,
+      "description": "It follows Harry Potter, a wizard in his fourth year at Hogwarts School of Witchcraft and Wizardry, and the mystery surrounding the entry of Harry's name into the Triwizard Tournament, in which he is forced to compete."
+    },
+
+    {
+      "title": "Deadly Education",
+      "author": "Naomi Novik",
+      "image": "https://books.google.co.id/books/publisher/content?id=0YDJDwAAQBAJ&pg=PP1&img=1&zoom=3&hl=en&bul=1&sig=ACfU3U0_azBLKfa_9u9pGkrc4CZiCAJrTw&w=1280",
+      "price": 700000,
+      "currency": "Rp",
+      "category": "Fantasy Fiction",
+      "isbn13": 9780811223041,
+      "description": "Di London akhir 1950-an, sesuatu yang luar biasa menimpa sekelompok teman lansia."
+    },
+
+    {
+      "title": "Atlas of AI",
+      "author": "Kate Crawford",
+      "image": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1603542518l/50131136._SX318_.jpg",
+      "price": 600000,
+      "currency": "Rp",
+      "category": "Nonfiction > Technology",
+      "isbn13": 9780300209570,
+      "description": "Biaya tersembunyi kecerdasan buatan--mulai dari sumber daya alam dan tenaga kerja hingga privasi, kesetaraan, dan kebebasan"
+    }
+  ]
+}
