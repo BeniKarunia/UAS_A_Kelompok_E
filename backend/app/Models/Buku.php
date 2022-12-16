@@ -8,16 +8,28 @@ use Illuminate\Database\Eloquent\Model;
 class Buku extends Model
 {
     use HasFactory;
-    /**
-     * fillable
-     * 
-     * @var array
-     */
+    
     protected $fillable = [
-        'judul_buku',
-        'jenis_buku',
-        'penulis',
-        'tahun_terbit',
+        'id',
+        'judul',
+        'sinopsis',
         'genre',
+        'penerbit',
+        'isbn',
+        'penulis',
+        'tgl_terbit',
+        'stok',
+        'cover'
+    ];
+    public static $rules = [
+        "id" => "required",
+        "judul" => "required",
+        "sinopsis" => "required",
+        "genre" => "required",
+        "penerbit" => "required",
+        "isbn" => "required",
+        "penulis" => "required",
+        "tgl_terbit" => "required",
+        "stok" => "required"
     ];
 }

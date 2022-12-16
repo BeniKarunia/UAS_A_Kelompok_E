@@ -17,6 +17,6 @@ Route::get('/', function () {
     return view('dashboard');
 });
 Route::resource('/pengguna',
-\App\Http\Controllers\PenggunaController::class);
+\App\Http\Controllers\UserController::class);
 Route::resource('/buku',
 \App\Http\Controllers\BukuController::class);
