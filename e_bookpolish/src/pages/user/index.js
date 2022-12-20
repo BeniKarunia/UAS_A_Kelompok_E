@@ -1,7 +1,9 @@
-import SignInComponent from './sign-in/SignIn.vue'
+import LoginComponent from './login/Login.vue'
 import RegisterComponent from './register/Register.vue'
+import ProfileComponent from './profile/Profile.vue'
 
 export {
-  SignInComponent,
-  RegisterComponent
+  LoginComponent,
+  RegisterComponent,
+  ProfileComponent
 }

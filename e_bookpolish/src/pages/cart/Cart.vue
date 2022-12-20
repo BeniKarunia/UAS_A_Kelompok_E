@@ -29,7 +29,7 @@ export default {
     }),
 
     total() {
-      return Math.max(this.cartTotal - this.promo.value, 0).toFixed(2);
+      return Math.max(this.cartTotal,0).toFixed(2);
     }
   },
 
@@ -40,10 +40,6 @@ export default {
         symbol: 'Rp.'
       },
 
-      promo: {
-        code: 'EXAMPLECODE',
-        value: 5
-      }
     };
   },
 };

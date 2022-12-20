@@ -1,8 +1,47 @@
 <script setup>
-import { useCatalog } from '/src/store/catalog.js'
-import { useCart } from '/src/store/cart.js'
-const store = useCatalog()
-const cart = useCart()
+import { useBukuStore } from '/src/store/buku.js'
+import { useKeranjangStore } from '/src/store/keranjang.js'
+import { onMounted,computed, ref} from 'vue';
+
+
+const bukuStore = useBukuStore()
+const newArrivals = computed(()=> bukuStore.buku)
+const keranjangStore = useKeranjangStore()
+const detailKeranjangStore = computed(() => keranjangStore);
+const loading = ref(false)
+
+async function fetchBuku () {
+    loading.value = true
+    await bukuStore.get() 
+    loading.value = false
+  }
+
+  async function fetchCart () {
+    let res = await keranjangStore.get() 
+    console.log(res);
+  }
+
+  async function fetchAll () {
+    await fetchCart()
+    await fetchBuku()
+  }
+
+  async function addToCart (buku) {
+    let res = await keranjangStore.save({ buku_id : buku.id, jumlah : 1 }) 
+    await fetchCart()
+  }
+
+  async function editCart (newArrivals) {
+    if(newArrivals.jumlah > 0) await keranjangStore.save(newArrivals) 
+    else await keranjangStore.delete(newArrivals.buku_id) 
+    await fetchCart()
+  }
+
+onMounted(() => {
+    fetchAll()
+  })
+
+
 </script>
 
 <template>
@@ -11,23 +50,24 @@ const cart = useCart()
 
     <div class="row mb-2 new-arrival">
       <div class="col-md-6" v-for="bookDetail in newArrivals">
-        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="row g-1 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
           <div class="col p-4 d-flex flex-column position-static">
             <strong class="d-inline-block mb-2 text-primary book-category">{{ bookDetail.category }}</strong>
-            <h3 class="mb-0 book-title">{{ bookDetail.title }}</h3>
-            <div class="mb-1 text-muted book-author">{{ bookDetail.author }}</div>
-            <p class="card-text mb-auto book-description">{{ bookDetail.description }}</p>
+            <h3 class="mb-0 book-title" text @click="addToCart(buku,i)">{{ bookDetail.judul }} </h3>
+
+            <div class="mb-2 text-muted book-author">{{ bookDetail.penulis }}</div>
+            <p class="card-text mb-auto book-description">{{ bookDetail.sinopsis }}</p>
 
             <div class="input-group">
-              <span class="price"><input type="text" :style="{ '--currency': bookDetail.currency }"
-                  :value="bookDetail.price" class="form-control" readonly aria-label=""></span>
-              <button @click="addToCart(bookDetail)" class="btn btn-outline-secondary add-to-cart" type="button"><img
-                  src="/images-cloud/basket_icon.svg" alt="Add to basket"></button>
+              <span class="harga"><input type="text" :style="{ '--currency': bookDetail.currency }"
+                  :value="bookDetail.harga" class="form-control" readonly aria-label=""></span>
+              <v-btn @click="addToCart(bookDetail,i)" class="btn btn-outline-secondary add-to-cart" type="button"><img
+                  src="/images-cloud/basket_icon.svg" alt="Add to basket"></v-btn>
             </div>
 
           </div>
           <div class="col-auto d-md-block book-thumbnail">
-            <img :src="bookDetail.image" :alt="bookDetail.title + ' by ' + bookDetail.author" />
+            <img :src="bookDetail.cover" :alt="bookDetail.judul + ' by ' + bookDetail.penulis" />
           </div>
         </div>
       </div>
@@ -80,7 +120,7 @@ const cart = useCart()
   color: #ccc !important;
 }
 
-.new-arrival .input-group .price:before {
+.new-arrival .input-group .harga:before {
   content: 'Rp. ';
   z-index: 1;
   display: inline-block;
@@ -123,37 +163,3 @@ button.add-to-cart img {
   width: 40px;
 }
 </style>
-
-<script>
-import { mapState, mapActions } from 'pinia'
-
-export default {
-  data() {
-    return {};
-  },
-
-  computed: {
-    ...mapState(useCatalog, {
-      newArrivals: 'results'
-    })
-  },
-
-  mounted() {
-    console.log('results: ', this.newArrivals)
-  },
-
-  methods: {
-    ...mapActions(useCatalog, [
-      'fetchNewArrivals'
-    ]),
-
-    ...mapActions(useCart, [
-      'addToCart'
-    ])
-  },
-
-  created() {
-    this.fetchNewArrivals();
-  }
-};
-</script>

@@ -1,7 +1,9 @@
+import auth from '../middleware/auth'
 import {createRouter} from 'vue-router'
 import Homepage from './home/Home.vue';
-import {SignInComponent} from './user';
+import {LoginComponent} from './user';
 import {RegisterComponent} from './user';
+import {ProfileComponent} from './user';
 import Cart from './cart/Cart.vue';
 
 const routes = [
@@ -11,13 +13,18 @@ const routes = [
   },
 
   {
-    path: '/sign-in/',
-    component: SignInComponent
+    path: '/login/',
+    component: LoginComponent
   },
 
   {
     path: '/register/',
     component: RegisterComponent
+  },
+
+  {
+    path: '/profile/',
+    component: ProfileComponent
   },
 
   {

@@ -14,6 +14,7 @@ class Buku extends Model
         'judul',
         'sinopsis',
         'genre',
+        'harga',
         'penerbit',
         'isbn',
         'penulis',
@@ -22,10 +23,10 @@ class Buku extends Model
         'cover'
     ];
     public static $rules = [
-        "id" => "required",
         "judul" => "required",
         "sinopsis" => "required",
         "genre" => "required",
+        "harga" => "required",
         "penerbit" => "required",
         "isbn" => "required",
         "penulis" => "required",

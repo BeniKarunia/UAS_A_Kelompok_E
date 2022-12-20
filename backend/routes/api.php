@@ -35,5 +35,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::resource('/buku', BukuController::class);
     Route::resource('/keranjang', KeranjangController::class);
+    Route::delete('/clearkeranjang', [KeranjangController::class, 'destroyAll']);
     Route::resource('/transaksi', TransaksiController::class);    
 });

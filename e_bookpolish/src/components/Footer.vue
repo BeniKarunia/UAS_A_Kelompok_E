@@ -5,7 +5,7 @@
         <div class="footer-content">
           <div class="logo-home"></div>
           <div class="footer-text">
-            <p>© 2022 E_Bookpolish. All Right Reserved.</p>
+            <p>© 2022 E-Bookpolish. All Right Reserved.</p>
           </div>
         </div>
       </div>
