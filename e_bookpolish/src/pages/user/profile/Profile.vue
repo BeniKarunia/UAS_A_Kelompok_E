@@ -2,6 +2,52 @@
 import TopNavbar from '../../../components/TopNavbar.vue';
 import Footer from '../../../components/Footer.vue';
 
+import { computed, onMounted, ref } from 'vue';
+    import { useUserStore } from '/src/store/user';
+    const errors = ref({})
+    const enabled =  ref(false)
+    const preview_foto =  ref()
+    const show = ref(false)
+    const snackbar = ref(false)
+    const btnEdit = ref(false)
+    const url_foto = ref(null)
+    const editdata = ref({})
+    const newPassword = ref(null)
+    const store = useUserStore()
+    const user = computed(() => store.user)
+
+    async function save() {
+        let res = await store.update(store.user)
+        console.log(res);
+        if(!res.status){
+            errors.value = res.errors || {}
+        }
+        else{
+            errors.value = {}
+            await store.profile()
+            btnEdit.value = false;
+        }
+    }
+    async function cancel(){
+        await store.profile()
+        btnEdit.value = false;
+        preview_foto.value = null
+    }
+    function upload(event) {
+        let url = event.target.files[0];
+        user.value.foto = url
+        preview_foto.value = URL.createObjectURL(url);
+    }
+
+    const cardtitle = computed(()=> {
+        return btnEdit.value === false ? 'Profile' : 'Edit Profile'
+    })
+
+    onMounted(async () => {
+        await store.profile()
+        console.log(store.user);
+    })
+
 </script>
 
 <template>
@@ -12,10 +58,6 @@ import Footer from '../../../components/Footer.vue';
       <form>
         <h1 class="h3 mb-3 fw-normal">PROFILE</h1>
         
-        <!-- <div class="mb-3">
-            <label for="floatingInput" class="form-control"></label>
-            <img height="250" src="../assets/upload/<?php echo $_SESSION['user']['foto'] ?>">
-            </div> -->
         <div class="form-floating">
           <input type="nama" class="form-control" id="floatingNama" placeholder="Joni Geming">
           <label for="floatingNama">Nama Pengguna</label>

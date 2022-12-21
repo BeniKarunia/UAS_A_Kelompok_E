@@ -10,7 +10,7 @@ class ImageUpload
     public static function uploadImage($request, $key)
     {
         $request->validate([
-            $key => 'required|image|mimes:png,jpg,jpeg|max:2048'
+            $key => 'required|image'
         ]);
 
         $imageName = time() . '.' . $request->{$key}->extension();

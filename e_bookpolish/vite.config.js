@@ -9,3 +9,17 @@ export default defineConfig({
     nightwatchPlugin()
   ]
 })
+
+// plugins: [
+//   vue({
+//     template: {
+//       compilerOptions: {
+//         isCustomElement: (tag) => {
+//           return tag.startsWith('ion-'),
+//           nightwatchPlugin() // (return true)
+//         }
+//       }
+//     }
+//   })
+// ]
+// })

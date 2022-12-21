@@ -1,6 +1,7 @@
 <script setup>
 import TopNavbar from '../../../components/TopNavbar.vue';
 import Footer from '../../../components/Footer.vue';
+import router from '../../../lib/router.js'
 
 import { useUserStore } from '/src/store/user';
   import { ref } from 'vue';
@@ -19,9 +20,8 @@ import { useUserStore } from '/src/store/user';
   
   async function login(){
     isLoading.value = true
-    let res = await store.login(user.value) 
+    let res = await store.login(user.value,router) 
     console.log(res.message,"Test");
-    alert.value = {color: res.status ? 'green' : 'red', msg: res.message, show:true }
     errors.value = res.errors || {}
     isLoading.value = false
   }
@@ -43,11 +43,10 @@ import { useUserStore } from '/src/store/user';
           <input type="password" class="form-control" id="floatingPassword" label="Password" v-model="user.password" placeholder="Masukkan Password" :error-messages="errors.password" outlined>
           <label for="floatingPassword">Password</label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+        <button class="w-100 btn btn-lg btn-primary" type="button" @click="login">Login</button>
         <p class="mt-2 mb-3 text-muted">Belum punya akun? <router-link to="/register">Daftar</router-link></p>
       </form>
     </main>
-    <v-snackbar v-model="alert.show" :color="alert.color" timeout="2000" bottom>{{ alert.msg }}</v-snackbar>
     <Footer />
   </div>
 </template>

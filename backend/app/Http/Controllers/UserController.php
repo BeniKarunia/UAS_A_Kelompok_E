@@ -29,11 +29,11 @@ class UserController extends Controller
         // validate data user
         $validate = Validator::make($data, [
             'nama' => 'required',
+            'username' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'required|min:6',
+            'no_hp' => 'required',
         ]);
 
-        // if validation failed
         if ($validate->fails()) {
             return response()->json([
                 'success' => false,
@@ -42,8 +42,8 @@ class UserController extends Controller
             ], 400);
         }
         
+        if(array_key_exists('password',$data)) $data['password'] = Hash::make($data['password']);
         
-        // update data user
         $user = User::find($user->id);
         $user->update($data);
         $user->save();

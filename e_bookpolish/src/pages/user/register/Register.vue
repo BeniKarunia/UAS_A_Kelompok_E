@@ -3,6 +3,8 @@ import TopNavbar from '../../../components/TopNavbar.vue';
 import Footer from '../../../components/Footer.vue';
 import { useUserStore } from '/src/store/user.js';
 import { ref } from 'vue';
+import router from '../../../lib/router.js'
+
 
 const store = useUserStore()
 
@@ -16,6 +18,13 @@ const user = ref({
   password: ""
 })
 
+function onFileChange(e) {
+  var files = e.target.files || e.dataTransfer.files;
+  if (!files.length)
+    return;
+  user.value.foto = files[0];
+}
+
 const errors = ref({})
 
 async function regist(){
@@ -24,6 +33,8 @@ async function regist(){
   console.log(res);
   errors.value = res.errors || {}
   isLoading.value = false
+  console.log(router);
+  router.push('/login')
 }
 </script>
 
@@ -56,7 +67,7 @@ async function regist(){
           <label for="floatingPassword">Password</label>
         </div>
         <div class="form-floating">
-          <v-file-input type="file" class="form-control" v-model="user.foto" :error-messages="errors.foto" label="Upload Foto" ></v-file-input>
+          <input type="file" class="form-control" @change="onFileChange" :error-messages="errors.foto" />
           <label>Foto</label>
         </div>
         <v-btn block :loading="isLoading" @click="regist()" class="w-100 btn btn-lg btn-primary" type="submit">Register</v-btn>

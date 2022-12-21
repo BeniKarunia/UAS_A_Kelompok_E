@@ -5,7 +5,8 @@ import client from '../api/request'
 export const useUserStore = defineStore("user",{
     state: () => ({
         user: {},
-        token: localStorage.getItem('token') || null
+        token: localStorage.getItem('token') || null,
+        router: null
     }),
     getters: {
         getToken(state){
@@ -16,15 +17,16 @@ export const useUserStore = defineStore("user",{
         }
     },
     actions: {
-        async login(params) {
+        async login(params,router) {
             try {
-                const res = await axios.post('https://LINK Ho.com/.../public/api/' + "login", params, {
+                const res = await axios.post('http://127.0.0.1:8000/api/' + "login", params, {
                     headers: {'Content-Type': 'application/json'}
                 })
                 this.token = res.data.token
                 this.user = res.data.data
+                this.router = router
                 localStorage.setItem('token',this.token)
-                this.$router.push('/')
+                router.push('/')
                 return res.data
             }
             catch (error) {
@@ -34,15 +36,14 @@ export const useUserStore = defineStore("user",{
         },
         async register(params) {
             try {
-                const res = await axios.post('https://LINK Ho.com/.../public/api/' + "register", params, {
+                const res = await axios.post('http://127.0.0.1:8000/api/' + "register", params, {
                     headers: {'Content-Type': 'application/json', 'Content-Type': 'multipart/form-data'},
                 })
-                this.$router.push('/login')
                 return res.data
             }
             catch (error) {
                 console.log(error)
-                return error.response.data
+                return error.response
             }
         },
         async profile(){
@@ -65,17 +66,16 @@ export const useUserStore = defineStore("user",{
             }
             catch (error) {
                 console.log(error)
-                return error.response.data
+                return error.response
             }
         },
         async logout() {
             try {
-                const data = await client().get('logout')
                 localStorage.removeItem('token')
-                this.$router.push('/login')
                 this.user = {}
                 this.token = null
-                return data.data
+                this.router.push('/login')
+                return
             }
             catch (error) {
                 console.log(error)

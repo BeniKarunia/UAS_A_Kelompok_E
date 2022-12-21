@@ -44,6 +44,13 @@ class KeranjangController extends Controller
 
         $data = Keranjang::firstOrNew(['user_id' => auth()->user()->id, 'buku_id' => $request->buku_id]);
         $data->jumlah = $request->jumlah;
+
+        if($data->jumlah > $data->buku->stok)
+        return response([
+            'status' => false,
+            'message' => 'Stok tidak cukup',
+            'data' => $data,
+        ], 401);
         $data->save();
         
         return response([
@@ -85,9 +92,6 @@ class KeranjangController extends Controller
      * @param  \App\Models\Keranjang  $Keranjang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-    }
 
     /**
      * Remove the specified resource from storage.
