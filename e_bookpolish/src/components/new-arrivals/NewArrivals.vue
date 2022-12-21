@@ -28,6 +28,7 @@ async function fetchBuku () {
 
   async function addToCart (buku) {
     let res = await keranjangStore.save({ buku_id : buku.id, jumlah : 1 }) 
+    console.log(res);
     await fetchCart()
   }
 

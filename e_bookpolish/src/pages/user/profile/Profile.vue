@@ -3,50 +3,45 @@ import TopNavbar from '../../../components/TopNavbar.vue';
 import Footer from '../../../components/Footer.vue';
 
 import { computed, onMounted, ref } from 'vue';
-    import { useUserStore } from '/src/store/user';
-    const errors = ref({})
-    const enabled =  ref(false)
-    const preview_foto =  ref()
-    const show = ref(false)
-    const snackbar = ref(false)
-    const btnEdit = ref(false)
-    const url_foto = ref(null)
-    const editdata = ref({})
-    const newPassword = ref(null)
-    const store = useUserStore()
-    const user = computed(() => store.user)
+import { useUserStore } from '/src/store/user';
+const errors = ref({})
+const enabled = ref(false)
+const preview_foto = ref()
+const show = ref(false)
+const btnEdit = ref(false)
+const url_foto = ref(null)
+const editdata = ref({})
+const store = useUserStore()
+const user = computed(() => store.user)
 
-    async function save() {
-        let res = await store.update(store.user)
-        console.log(res);
-        if(!res.status){
-            errors.value = res.errors || {}
-        }
-        else{
-            errors.value = {}
-            await store.profile()
-            btnEdit.value = false;
-        }
-    }
-    async function cancel(){
-        await store.profile()
-        btnEdit.value = false;
-        preview_foto.value = null
-    }
-    function upload(event) {
-        let url = event.target.files[0];
-        user.value.foto = url
-        preview_foto.value = URL.createObjectURL(url);
-    }
+async function save() {
+  let res = await store.update(store.user)
+  console.log(res);
+  if (!res.status) {
+    errors.value = res.errors || {}
+  }
+  else {
+    errors.value = {}
+    await store.profile()
+    btnEdit.value = false;
+  }
+  btnEdit.value = false;
+}
+async function cancel() {
+  await store.profile()
+  btnEdit.value = false;
+  preview_foto.value = null
+}
+function upload(event) {
+  let url = event.target.files[0];
+  user.value.foto = url
+  preview_foto.value = URL.createObjectURL(url);
+}
 
-    const cardtitle = computed(()=> {
-        return btnEdit.value === false ? 'Profile' : 'Edit Profile'
-    })
-
-    onMounted(async () => {
-        await store.profile()
-        console.log(store.user);
-    })
+onMounted(async () => {
+  await store.profile()
+  console.log(store.user);
+})
 
 </script>
 
@@ -57,29 +52,31 @@ import { computed, onMounted, ref } from 'vue';
     <main class="form-profile">
       <form>
         <h1 class="h3 mb-3 fw-normal">PROFILE</h1>
-        
-        <div class="form-floating">
-          <input type="nama" class="form-control" id="floatingNama" placeholder="Joni Geming">
-          <label for="floatingNama">Nama Pengguna</label>
-        </div>
-        <div class="form-floating">
-          <input type="no_hp" class="form-control" id="floatingNo_Hp" placeholder="085311278392">
-          <label for="floatingNo_Hp">Nomor Telepon</label>
-        </div>
-        <div class="form-floating">
-          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-          <label for="floatingInput">Email address</label>
-        </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-        <p class="mt-5 mb-3 text-muted"></p>
+
+          <div class="mt-3 ml-8 mr-4 mb-2" cols="3">
+              <img class="form-control" :src="preview_foto ? preview_foto : user.foto ? user.foto : '@/assets/logo.png'" width="220" height="220"/>
+          </div>
+          <div class="form-control">
+            <input class="form-control" v-model="user.nama" label="Name" :error-messages="errors.nama"
+              :readonly="btnEdit == false"/>
+            <input class="form-control" v-model="user.username" label="Username" :error-messages="errors.username"
+              :readonly="btnEdit == false"/>
+            <input class="form-control" v-model="user.email" label="Email" :error-messages="errors.email"
+              :readonly="btnEdit == false"/>
+            <input class="form-control" v-model="user.no_hp" label="No Hp" :error-messages="errors.no_hp"
+              :readonly="btnEdit == false"/>
+            </div>
+        <button v-if="btnEdit == true" type="button" @click="save" class="w-100 btn btn-lg btn-primary"> SAVE
+        </button>
+          <button class="w-100 btn btn-lg btn-primary" type="button" v-if="btnEdit == false" @click.stop="btnEdit = !btnEdit" rounded outlined
+            color="red">EDIT
+      </button>
       </form>
     </main>
-
-    <Footer />
+        <Footer />
   </div>
 </template>
 <style>
-
 .form-profile {
   width: 100%;
   max-width: 330px;
@@ -118,11 +115,13 @@ h1 {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
+
 .form-profile input[type="no_hp"] {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
+
 .form-profile input[type="email"] {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
